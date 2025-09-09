@@ -3,12 +3,13 @@ package xavier.app.Login.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import xavier.app.Login.model.User;
 import xavier.app.Login.repository.UserRepository;
+
+
 
 @Controller
 public class LoginController {
@@ -17,9 +18,11 @@ public class LoginController {
     private UserRepository userRepository;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(org.springframework.ui.Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
+
 
     @GetMapping("/cadastro")
     public String cadastro(org.springframework.ui.Model model) {
@@ -39,4 +42,22 @@ public class LoginController {
         
         return "redirect:/login";
     }
+
+    @GetMapping("/")
+    public String dashboard(){
+        return "index";
+    }
+
+    @PostMapping("/logar")
+    public String loginUsuario(@ModelAttribute User user, Model model) {
+        User usuarioLogado = this.userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+
+        if (usuarioLogado != null) {
+            return "redirect:/"; // Redireciona para index.html
+        } else {
+            model.addAttribute("error", "Email ou senha inválidos"); // CORRETO
+            return "login"; // volta pra tela de login com a mensagem
+        }
+    }
+
 }
