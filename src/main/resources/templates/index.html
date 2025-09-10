@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Minha Primeira Tela</title>
@@ -40,7 +40,7 @@
 </head>
 <body>
 <div class="card">
-    <h1>Bem-vindo!</h1>
+    <h1>Bem-vindo, <span th:text="${name}"></span></h1>
     <p>Esta é uma tela HTML de exemplo.</p>
     <button onclick="alert('Você clicou no botão!')">Clique aqui</button>
 </div>
